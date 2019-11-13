@@ -78,5 +78,41 @@ namespace FakerTests
             Assert.IsTrue(onlyFloat.X != 0);
             Assert.IsTrue(onlyFloat.Y != 0);
         }
+
+
+
+        [TestMethod]
+        public void ClassWithRecursion()
+        {
+            Faker faker = new Faker();
+            A a = faker.Create<A>();
+            Assert.IsTrue(a.b != null);
+            Assert.IsTrue(a.b.a == null);
+        }
+
+
+
+        [TestMethod]
+        public void ClassWithStandartType()
+        {
+            Faker faker = new Faker();
+            StandartTypes st = faker.Create<StandartTypes>();
+            Assert.IsTrue(st.str != null);
+        }
+
+        struct TestStr
+        {
+            public int X;
+            public byte Y;
+        }
+
+        [TestMethod]
+        public void Struct()
+        {
+            Faker faker = new Faker();
+            TestStr st = faker.Create<TestStr>();
+            Assert.IsTrue(st.X != 0);
+            Assert.IsTrue(st.Y != 0);
+        }
     }
 }
