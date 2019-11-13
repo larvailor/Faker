@@ -23,6 +23,11 @@ namespace FakerLib
 
         private object CreateDTO(Type type)
         {
+            if (creator.GeneratorExists(type))
+            {
+                return creator.Create(type);
+            }
+
             var obj = CreateWithConstructor(type);
             FillDTO(obj);
             return obj;
@@ -34,22 +39,17 @@ namespace FakerLib
         {
             try
             {
-                if (creator.GeneratorExists(type))
-                {
-                    return creator.Create(type);
-                }
-
                 var constructor = type.GetConstructors()[0];
                 var constrParams = constructor.GetParameters();
+                var createdConstParams = new List<object>();
                 if (constrParams.Any())
                 {
-                    var createdConstParams = new List<object>();
                     foreach (var constrParam in constrParams)
                     {
                         createdConstParams.Add(CreateDTO(constrParam.ParameterType));
                     }
                 }
-                return constructor.Invoke(constrParams.ToArray());
+                return constructor.Invoke(createdConstParams.ToArray());
             }
             catch
             {

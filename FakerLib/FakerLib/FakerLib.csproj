@@ -41,7 +41,9 @@
   <ItemGroup>
     <Compile Include="Faker.cs" />
     <Compile Include="Generators\ByteGenerator.cs" />
+    <Compile Include="Generators\ShortGenerator.cs" />
     <Compile Include="Generators\IGenerator.cs" />
+    <Compile Include="Generators\IntGenerator.cs" />
     <Compile Include="TypesCreator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
