@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BEB8FF95-04B3-4B06-AA77-3DDAA7EA5936}</ProjectGuid>
+    <ProjectGuid>{2B10EE61-D03E-4DA0-B4B4-B2DC0DED956B}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>FakerLib</RootNamespace>
-    <AssemblyName>FakerLib</AssemblyName>
+    <RootNamespace>BaseGenerator</RootNamespace>
+    <AssemblyName>BaseGenerator</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\lib\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -39,19 +39,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Faker.cs" />
-    <Compile Include="Generators\ByteGenerator.cs" />
-    <Compile Include="Generators\ShortGenerator.cs" />
-    <Compile Include="Generators\IntGenerator.cs" />
-    <Compile Include="TypesCreator.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="BaseGenerator">
-      <HintPath>..\lib\BaseGenerator.dll</HintPath>
-    </Reference>
+    <Compile Include="IGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

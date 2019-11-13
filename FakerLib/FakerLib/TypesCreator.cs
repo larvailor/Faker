@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using BaseGenerator;
 using FakerLib.Generators;
 
 namespace FakerLib
@@ -17,7 +18,15 @@ namespace FakerLib
 
         public TypesCreator()
         {
-            LoadExistingGenerators();
+            try
+            {
+                LoadExistingGenerators();
+                LoadAdvancedGenerators();
+            }
+            catch
+            {
+                // nothing to loads
+            }
         }
 
 
@@ -32,6 +41,26 @@ namespace FakerLib
 
             IGenerator intG = new IntGenerator();
             generators.Add(intG.GeneratedType(), intG);
+        }
+
+
+
+        private void LoadAdvancedGenerators()
+        {
+            string pathToAdvancedGeneratorsDll = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\..\\lib\\");
+            string[] allDll = Directory.GetFiles(pathToAdvancedGeneratorsDll, "*.dll");
+            foreach (string dllPath in allDll)
+            {
+                Assembly asm = Assembly.LoadFrom(dllPath);
+                foreach (Type type in asm.GetExportedTypes())
+                {
+                    if (type.IsClass && typeof(IGenerator).IsAssignableFrom(type))
+                    {
+                        IGenerator g = (IGenerator)Activator.CreateInstance(type); 
+                        generators.Add(g.GeneratedType(), g);
+                    }
+                }
+            }
         }
 
 

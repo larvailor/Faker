@@ -52,6 +52,7 @@
     <Compile Include="FakerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelpers\AllTypes.cs" />
+    <Compile Include="TestHelpers\OnlyFloat.cs" />
     <Compile Include="TestHelpers\OnlyBytes.cs" />
     <Compile Include="TestHelpers\OnlyInt.cs" />
     <Compile Include="TestHelpers\OnlyShort.cs" />
