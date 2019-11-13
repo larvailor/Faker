@@ -67,5 +67,16 @@ namespace FakerTests
             Assert.IsTrue(twoClasses.allTypes.Z != 0);
 
         }
+
+
+
+        [TestMethod]
+        public void ClassWithOnlyFloat()
+        {
+            Faker faker = new Faker();
+            OnlyFloat onlyFloat = faker.Create<OnlyFloat>();
+            Assert.IsTrue(onlyFloat.X != 0);
+            Assert.IsTrue(onlyFloat.Y != 0);
+        }
     }
 }

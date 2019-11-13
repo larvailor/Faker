@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FakerLib.Generators
+namespace FakerTests.TestHelpers
 {
-    public interface IGenerator
+    public class OnlyFloat
     {
-        object Generate();
-
-        Type GeneratedType();
+        public float X { get; set; }
+        public float Y;
     }
 }
