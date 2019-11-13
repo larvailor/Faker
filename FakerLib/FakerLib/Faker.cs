@@ -10,7 +10,7 @@ namespace FakerLib
     public class Faker
     {
         private TypesCreator creator = new TypesCreator();
-
+        private List<Type> innerTypes = new List<Type>();
 
 
         public T Create<T>()
@@ -27,10 +27,21 @@ namespace FakerLib
             {
                 return creator.Create(type);
             }
-
-            var obj = CreateWithConstructor(type);
-            FillDTO(obj);
-            return obj;
+            else
+            {
+                if (innerTypes.Contains(type))
+                {
+                    return null;
+                }
+                else
+                {
+                    innerTypes.Add(type);
+                    var obj = CreateWithConstructor(type);
+                    FillDTO(obj);
+                    innerTypes.Remove(type);
+                    return obj;
+                }
+            }
         }
 
 
@@ -75,14 +86,7 @@ namespace FakerLib
             {
                 if (property.SetMethod != null)
                 {
-                    if (creator.GeneratorExists(property.PropertyType))
-                    {
-                        property.SetValue(obj, creator.Create(property.PropertyType));
-                        continue;
-                    }
-
                     var propertyObject = CreateDTO(property.PropertyType);
-                    FillDTO(propertyObject);
                     property.SetValue(obj, propertyObject);
                 }
             }
@@ -92,14 +96,7 @@ namespace FakerLib
             {
                 try
                 {
-                    if (creator.GeneratorExists(field.FieldType))
-                    {
-                        field.SetValue(obj, creator.Create(field.FieldType));
-                        continue;
-                    }
-
                     var fieldObject = CreateDTO(field.FieldType);
-                    FillDTO(fieldObject);
                     field.SetValue(obj, fieldObject);
                 }
                 catch
