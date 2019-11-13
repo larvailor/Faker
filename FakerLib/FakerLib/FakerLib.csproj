@@ -40,6 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Faker.cs" />
+    <Compile Include="Generators\ByteGenerator.cs" />
+    <Compile Include="Generators\IGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
