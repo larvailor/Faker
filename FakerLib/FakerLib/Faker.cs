@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace FakerLib
 {
+
     public class Faker
     {
+        private TypesCreator creator = new TypesCreator();
+
+
+
         public T Create<T>()
         {
             T obj = (T)CreateDTO(typeof(T));
@@ -18,6 +23,11 @@ namespace FakerLib
 
         private object CreateDTO(Type type)
         {
+            if (creator.GeneratorExists(type))
+            {
+                return creator.Create(type);
+            }
+
             var obj = CreateWithConstructor(type);
             FillDTO(obj);
             return obj;
@@ -31,15 +41,15 @@ namespace FakerLib
             {
                 var constructor = type.GetConstructors()[0];
                 var constrParams = constructor.GetParameters();
+                var createdConstParams = new List<object>();
                 if (constrParams.Any())
                 {
-                    var createdConstParams = new List<object>();
                     foreach (var constrParam in constrParams)
                     {
                         createdConstParams.Add(CreateDTO(constrParam.ParameterType));
                     }
                 }
-                return constructor.Invoke(constrParams.ToArray());
+                return constructor.Invoke(createdConstParams.ToArray());
             }
             catch
             {
@@ -65,6 +75,12 @@ namespace FakerLib
             {
                 if (property.SetMethod != null)
                 {
+                    if (creator.GeneratorExists(property.PropertyType))
+                    {
+                        property.SetValue(obj, creator.Create(property.PropertyType));
+                        continue;
+                    }
+
                     var propertyObject = CreateDTO(property.PropertyType);
                     FillDTO(propertyObject);
                     property.SetValue(obj, propertyObject);
@@ -74,9 +90,22 @@ namespace FakerLib
             var fields = obj.GetType().GetFields();
             foreach (var field in fields)
             {
-                var fieldObject = CreateDTO(field.FieldType);
-                FillDTO(fieldObject);
-                field.SetValue(obj, fieldObject);
+                try
+                {
+                    if (creator.GeneratorExists(field.FieldType))
+                    {
+                        field.SetValue(obj, creator.Create(field.FieldType));
+                        continue;
+                    }
+
+                    var fieldObject = CreateDTO(field.FieldType);
+                    FillDTO(fieldObject);
+                    field.SetValue(obj, fieldObject);
+                }
+                catch
+                {
+                    field.SetValue(obj, null);
+                }
             }
         }
     }

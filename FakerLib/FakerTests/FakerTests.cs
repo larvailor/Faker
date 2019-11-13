@@ -13,6 +13,9 @@ namespace FakerTests
         {
             Faker faker = new Faker();
             OnlyBytes onlyBytes = faker.Create<OnlyBytes>();
+            Assert.IsTrue(onlyBytes.x != 0);
+            Assert.IsTrue(onlyBytes.y != 0);
+            Assert.IsTrue(onlyBytes.z != 0);
         }
     }
 }
