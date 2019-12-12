@@ -49,9 +49,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="BaseGenerator">
-      <HintPath>..\lib\BaseGenerator.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\BaseGenerator\BaseGenerator.csproj">
+      <Project>{2b10ee61-d03e-4da0-b4b4-b2dc0ded956b}</Project>
+      <Name>BaseGenerator</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
